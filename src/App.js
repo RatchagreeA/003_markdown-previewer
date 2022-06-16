@@ -15,17 +15,22 @@ function App() {
     }, [inputText, previewText]);
     return (
         <div className="App">
-            <textarea
-                id="editor"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-            />
-            <div
-                id="preview"
-                dangerouslySetInnerHTML={{
-                    __html: marked(previewText, { renderer: renderer }),
-                }}
-            ></div>
+            <div className="title-wrapper">
+                <h1 className="title">Markdown Previewer</h1>
+            </div>
+            <div className="items-wrapper">
+                <textarea
+                    id="editor"
+                    value={inputText}
+                    onChange={(e) => setInputText(e.target.value)}
+                />
+                <div
+                    id="preview"
+                    dangerouslySetInnerHTML={{
+                        __html: marked(previewText, { renderer: renderer }),
+                    }}
+                ></div>
+            </div>
         </div>
     );
 }
