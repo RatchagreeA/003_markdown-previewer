@@ -1,11 +1,10 @@
 import "./App.scss";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { marked } from "marked";
+// import TextContext from "./component/TextContext";
+// import Editor from "./component/Editor";
+// import Preview from "./component/Preview";
 
-marked.setOptions({
-    breaks: true,
-});
-const renderer = new marked.Renderer();
 function App() {
     const [inputText, setInputText] = useState(initText);
     const [previewText, setPreviewText] = useState("");
@@ -14,28 +13,80 @@ function App() {
         setPreviewText(inputText);
     }, [inputText, previewText]);
     return (
-        <div className="App">
-            <div className="title-wrapper">
-                <h1 className="title">Markdown Previewer</h1>
+        <TextContext.Provider
+            value={{
+                inputText: inputText,
+                setInputText: setInputText,
+                previewText: previewText,
+                setPreviewText: setPreviewText,
+            }}
+        >
+            <div className="App">
+                <div className="title-wrapper">
+                    <h1 className="title">Markdown Previewer</h1>
+                </div>
+                <div className="items-wrapper">
+                    <div className="editor-wrapper">
+                        <ToolBar
+                            icon={"fa fa-arrows-alt"}
+                            onClick={"xx"}
+                            text="Editor"
+                        />
+                        <Editor />
+                    </div>
+                    <div className="preview-wrapper">
+                        <ToolBar
+                            icon={"fa fa-compress"}
+                            onClick={"xx"}
+                            text="Previewer"
+                        />
+                        <Preview />
+                    </div>
+                </div>
             </div>
-            <div className="items-wrapper">
-                <textarea
-                    id="editor"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                />
-                <div
-                    id="preview"
-                    dangerouslySetInnerHTML={{
-                        __html: marked(previewText, { renderer: renderer }),
-                    }}
-                ></div>
-            </div>
-        </div>
+        </TextContext.Provider>
     );
 }
 
 export default App;
+
+marked.setOptions({
+    breaks: true,
+});
+const renderer = new marked.Renderer();
+const TextContext = React.createContext();
+
+function ToolBar(props) {
+    return (
+        <div className="tool-bar">
+            {props.text}
+            <i className={props.icon}></i>
+        </div>
+    );
+}
+
+function Editor() {
+    const text = useContext(TextContext);
+    return (
+        <textarea
+            id="editor"
+            type="text"
+            value={text.inputText}
+            onChange={(e) => text.setInputText(e.target.value)}
+        />
+    );
+}
+function Preview() {
+    const text = useContext(TextContext);
+    return (
+        <div
+            id="preview"
+            dangerouslySetInnerHTML={{
+                __html: marked(text.previewText, { renderer: renderer }),
+            }}
+        ></div>
+    );
+}
 
 const initText = `# Welcome to my React Markdown Previewer!
 
