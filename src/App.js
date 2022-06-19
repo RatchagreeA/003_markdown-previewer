@@ -1,17 +1,42 @@
 import "./App.scss";
 import React, { useState, useEffect, useContext } from "react";
-import { marked } from "marked";
-// import TextContext from "./component/TextContext";
-// import Editor from "./component/Editor";
-// import Preview from "./component/Preview";
+// import { marked } from "marked";
+import TextContext from "./component/TextContext";
+import Editor from "./component/Editor";
+import Preview from "./component/Preview";
+import ToolBar from "./component/ToolBar";
 
 function App() {
+    const initEditorClass = ["editor-wrapper min-height", "fa fa-arrows-alt"];
+    const initPreviewClass = ["preview-wrapper", "fa fa-compress"];
     const [inputText, setInputText] = useState(initText);
     const [previewText, setPreviewText] = useState("");
+    const [editorClass, setEditorClass] = useState(initEditorClass);
+    const [previewClass, setPreviewClass] = useState(initPreviewClass);
+    const [editMax, setEditMax] = useState(false);
+    const [previewMax, setPreviewMax] = useState(false);
 
     useEffect(() => {
         setPreviewText(inputText);
     }, [inputText, previewText]);
+
+    useEffect(() => {
+        let newEditorClass;
+        let newPreviewClass;
+        if (editMax) {
+            newEditorClass = ["editor-wrapper max-height", "fa fa-compress"];
+            newPreviewClass = ["hide", "fa fa-compress"];
+        } else if (previewMax) {
+            newEditorClass = ["hide", "fa fa-compress"];
+            newPreviewClass = ["preview-wrapper", "fa fa-compress"];
+        } else {
+            newEditorClass = ["editor-wrapper min-height", "fa fa-arrows-alt"];
+            newPreviewClass = ["preview-wrapper", "fa fa-arrows-alt"];
+        }
+        setEditorClass(newEditorClass);
+        setPreviewClass(newPreviewClass);
+    }, [editMax, previewMax]);
+
     return (
         <TextContext.Provider
             value={{
@@ -22,22 +47,22 @@ function App() {
             }}
         >
             <div className="App">
-                <div className="title-wrapper">
+                <div className="title-wrapper ">
                     <h1 className="title">Markdown Previewer</h1>
                 </div>
                 <div className="items-wrapper">
-                    <div className="editor-wrapper">
+                    <div className={editorClass[0]}>
                         <ToolBar
-                            icon={"fa fa-arrows-alt"}
-                            onClick={"xx"}
+                            icon={editorClass[1]}
+                            onClick={() => setEditMax(!editMax)}
                             text="Editor"
                         />
                         <Editor />
                     </div>
-                    <div className="preview-wrapper">
+                    <div className={previewClass[0]}>
                         <ToolBar
-                            icon={"fa fa-compress"}
-                            onClick={"xx"}
+                            icon={previewClass[1]}
+                            onClick={() => setPreviewMax(!previewMax)}
                             text="Previewer"
                         />
                         <Preview />
@@ -50,43 +75,43 @@ function App() {
 
 export default App;
 
-marked.setOptions({
-    breaks: true,
-});
-const renderer = new marked.Renderer();
-const TextContext = React.createContext();
+// marked.setOptions({
+//     breaks: true,
+// });
+// const renderer = new marked.Renderer();
+// const TextContext = React.createContext();
 
-function ToolBar(props) {
-    return (
-        <div className="tool-bar">
-            {props.text}
-            <i className={props.icon}></i>
-        </div>
-    );
-}
+// function ToolBar(props) {
+//     return (
+//         <div className="tool-bar">
+//             {props.text}
+//             <i className={props.icon} onClick={props.onClick}></i>
+//         </div>
+//     );
+// }
 
-function Editor() {
-    const text = useContext(TextContext);
-    return (
-        <textarea
-            id="editor"
-            type="text"
-            value={text.inputText}
-            onChange={(e) => text.setInputText(e.target.value)}
-        />
-    );
-}
-function Preview() {
-    const text = useContext(TextContext);
-    return (
-        <div
-            id="preview"
-            dangerouslySetInnerHTML={{
-                __html: marked(text.previewText, { renderer: renderer }),
-            }}
-        ></div>
-    );
-}
+// function Editor() {
+//     const text = useContext(TextContext);
+//     return (
+//         <textarea
+//             id="editor"
+//             type="text"
+//             value={text.inputText}
+//             onChange={(e) => text.setInputText(e.target.value)}
+//         />
+//     );
+// }
+// function Preview() {
+//     const text = useContext(TextContext);
+//     return (
+//         <div
+//             id="preview"
+//             dangerouslySetInnerHTML={{
+//                 __html: marked(text.previewText, { renderer: renderer }),
+//             }}
+//         ></div>
+//     );
+// }
 
 const initText = `# Welcome to my React Markdown Previewer!
 
