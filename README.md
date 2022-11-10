@@ -1,7 +1,7 @@
 # Markdown Previewer
 
 ## Overview
-Markdown Previewer is a web application that allows users to type markdown script and see a preview.
+Markdown Previewer is a web app that allows users to type markdown script and see a preview.
 
 ## Built With
 - Programming languages:
