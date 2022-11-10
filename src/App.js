@@ -1,6 +1,5 @@
 import "./App.scss";
-import React, { useState, useEffect, useContext } from "react";
-// import { marked } from "marked";
+import React, { useState, useEffect } from "react";
 import TextContext from "./component/TextContext";
 import Editor from "./component/Editor";
 import Preview from "./component/Preview";
@@ -74,44 +73,6 @@ function App() {
 }
 
 export default App;
-
-// marked.setOptions({
-//     breaks: true,
-// });
-// const renderer = new marked.Renderer();
-// const TextContext = React.createContext();
-
-// function ToolBar(props) {
-//     return (
-//         <div className="tool-bar">
-//             {props.text}
-//             <i className={props.icon} onClick={props.onClick}></i>
-//         </div>
-//     );
-// }
-
-// function Editor() {
-//     const text = useContext(TextContext);
-//     return (
-//         <textarea
-//             id="editor"
-//             type="text"
-//             value={text.inputText}
-//             onChange={(e) => text.setInputText(e.target.value)}
-//         />
-//     );
-// }
-// function Preview() {
-//     const text = useContext(TextContext);
-//     return (
-//         <div
-//             id="preview"
-//             dangerouslySetInnerHTML={{
-//                 __html: marked(text.previewText, { renderer: renderer }),
-//             }}
-//         ></div>
-//     );
-// }
 
 const initText = `# Welcome to my React Markdown Previewer!
 
