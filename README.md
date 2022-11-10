@@ -16,4 +16,4 @@ Markdown Previewer is a web app that allows users to type markdown script and se
 1. The user can input markdown script in the Editor field and see output in the Previewer field.
 2. Click the top-right icon on the toolbar to show or hide the Editor/Previewer. 
 
-Link Demo : https://ratchagreea.github.io/003_markdown-previewer"
+Link Demo : https://ratchagreea.github.io/003_markdown-previewer
